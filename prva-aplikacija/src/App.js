@@ -1,33 +1,62 @@
 import React from 'react'
 import './App.css'
-// import Button from './Button.js'
-// import Calc from './Calc'
-// import Counter from './Counter'
-import Toolbar from './components/Toolbar.js'
-import Users from './components/Users.js'
-
-const items = [
-  'Home',
-  'Books',
-  'Authors',
-  'Favourites'
-]
+import {
+  BrowserRouter,
+  Switch,
+  Route
+} from 'react-router-dom'
+import Home from './components/Home.js'
+import Songs from './components/Songs.js'
+import Albums from './components/Albums.js'
+import Artists from './components/Artists.js'
+import AboutUs from './components/AboutUs.js'
+import Menu from './components/Menu.js'
+import Login from './components/Login.js'
 
 class App extends React.Component {
 
   render = () => {
     return (
-      <div>
-        {/* <h1>Welcome to my first react webpage!</h1>
-        <Button greeting='ZDRAVO SEMOS' />
-        <Counter />
-        <Calc /> */}
-        <Toolbar menuItems={items} />
-        <br />
-        <Users />
-      </div>
+      <BrowserRouter>
+        <Menu />
+        <Switch>
+          <Route path='/login'>
+            <Login />
+          </Route>
+          
+          <Route path='/songs'>
+            <Songs />
+          </Route>
+
+          <Route path='/albums'>
+            <Albums />
+          </Route>
+
+          <Route path='/artists'>
+            <Artists />
+          </Route>
+
+          <Route path='/contact'>
+            <AboutUs />
+          </Route>
+
+          <Route exact path='/'>
+            <Home />
+          </Route>
+
+          {/* when no matches are found for the browser route */}
+          <Route path='*'>
+            <NotFound />
+          </Route>
+
+        </Switch>
+      </BrowserRouter>
     )
   }
+}
+
+const NotFound = () => {
+  return <div>Error 404!</div>
 }
 
 export default App
