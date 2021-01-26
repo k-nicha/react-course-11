@@ -1,31 +1,28 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  incrementAction, decrementAction
+} from './redux/counter/counter'
 
-export default class Counter extends React.Component {
-  constructor() {
-    super()
+const Counter = () => {
+  const dispatch = useDispatch()
 
-    this.state = {
-      counter: 0
-    }
+  // subscribing to store key
+  const value = useSelector((store) => store.counter)
+
+  const increment = () => {
+    dispatch(incrementAction())
   }
 
-  decrement = () => {
-    const newCount = this.state.counter - 1
-    const newState = { counter: newCount }
-    this.setState(newState)
+  const decrement = () => {
+    dispatch(decrementAction())
   }
 
-  increment = () => {
-    this.setState({ counter: this.state.counter + 1 })
-  }
-
-  render() {
-    return (
-      <div>
-        <button onClick={this.decrement}>-</button>
-        <span>{this.state.counter}</span>
-        <button onClick={this.increment}>+</button>
-      </div>
-    )
-  }
+  return <div>
+    <button onClick={increment}>Increment</button>
+    <button onClick={decrement}>Decrement</button>
+    <div>{value}</div>
+  </div>
 }
+
+export default Counter
