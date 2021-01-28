@@ -8,7 +8,7 @@ const Counter = () => {
   const dispatch = useDispatch()
 
   // subscribing to store key
-  const value = useSelector((store) => store.counter)
+  const value = useSelector((store) => store.counterReducer.counter)
 
   const increment = () => {
     dispatch(incrementAction())
