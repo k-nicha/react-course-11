@@ -1,21 +1,49 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Table, Button } from 'react-bootstrap'
 import AddNewAlbum from './AddNewAlbum.js'
+import { removeAlbum } from '../redux/albums/albums'
+import EditAlbum from './EditAlbum.js'
 
 const Albums = () => {
   const [isModalShown, showModal] = useState(false)
+  const [editModalShown, showEditModal] = useState(false)
+  const [rowId, rowClicked] = useState(null)
+
   const { albums } = useSelector(state => state.albumsReducer)
+  const dispatch = useDispatch()
 
   const toggleModal = () => {
     showModal(!isModalShown)
+  }
+
+  const toggleEditModal = (index) => {
+    rowClicked(index)
+    showEditModal(!editModalShown)
+  }
+
+  const deleteAlbum = (index) => {
+    dispatch(removeAlbum(index))
   }
 
   return (<div style={{ padding: '5% 20%' }}>
     <Button onClick={toggleModal}>
       Add new album
     </Button>
-    <AddNewAlbum show={isModalShown} handleClose={toggleModal} />
+
+    {isModalShown &&
+      <AddNewAlbum show={isModalShown} handleClose={toggleModal} />
+    }
+
+    {editModalShown &&
+      <EditAlbum
+        rowId={rowId}
+        // data={albums[rowId]}
+        show={toggleEditModal}
+        handleClose={toggleEditModal}
+      />
+    }
+
     <Table striped bordered hover style={{ marginTop: '1rem' }}>
       <thead>
         <tr>
@@ -29,12 +57,24 @@ const Albums = () => {
         {/* ovde se prikazuvaat albumite, sekoj vo poseban redica */}
         {albums.map((album, index) => {
           return <tr key={index}
-            //onclick????
+          //onclick????
           >
             <td>{album.albumName}</td>
             <td>{album.year}</td>
             <td>{album.artist}</td>
             <td>{album.photo}</td>
+            <td>
+              <Button variant='secondary'
+                onClick={() => toggleEditModal(index)}>
+                Edit
+              </Button>
+              <Button
+                variant='danger'
+                onClick={() => deleteAlbum(index)}
+              >
+                Delete
+              </Button>
+            </td>
           </tr>
         })}
       </tbody>
