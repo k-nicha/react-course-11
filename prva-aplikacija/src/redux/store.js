@@ -8,10 +8,12 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { counterReducer } from './counter/counter'
 import logger from 'redux-logger'
 import { loginReducer } from './login/login'
+import { albumsReducer } from './albums/albums'
 
 const allReducers = combineReducers({
   counterReducer, // { counter: 0 }
   loginReducer, // { username: '', password: '' }
+  albumsReducer
 })
 
 const store = createStore(allReducers, applyMiddleware(logger))

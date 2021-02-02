@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import Counter from './../Counter'
+// import Counter from './../Counter'
 
 const Home = () => {
   const { username } = useSelector((store) => store.loginReducer)
