@@ -11,12 +11,12 @@ const Albums = () => {
     showModal(!isModalShown)
   }
 
-  return (<>
+  return (<div style={{ padding: '5% 20%' }}>
     <Button onClick={toggleModal}>
       Add new album
     </Button>
     <AddNewAlbum show={isModalShown} handleClose={toggleModal} />
-    <Table striped bordered hover>
+    <Table striped bordered hover style={{ marginTop: '1rem' }}>
       <thead>
         <tr>
           <th>Name</th>
@@ -28,7 +28,9 @@ const Albums = () => {
       <tbody>
         {/* ovde se prikazuvaat albumite, sekoj vo poseban redica */}
         {albums.map((album, index) => {
-          return <tr key={index}>
+          return <tr key={index}
+            //onclick????
+          >
             <td>{album.albumName}</td>
             <td>{album.year}</td>
             <td>{album.artist}</td>
@@ -37,7 +39,7 @@ const Albums = () => {
         })}
       </tbody>
     </Table>
-  </>
+  </div>
   )
 }
 
