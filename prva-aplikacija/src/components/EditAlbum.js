@@ -1,18 +1,15 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Modal, Button, FormControl } from 'react-bootstrap'
 import { updateAlbum } from '../redux/albums/albums'
 
 const EditAlbum = (props) => {
-  const { show, handleClose, rowId } = props
-  const { albums } = useSelector(state => state.albumsReducer)
-
-  const selectedAlbum = albums[rowId]
-
-  const [albumName, setName] = useState(selectedAlbum.albumName)
-  const [year, setYear] = useState(selectedAlbum.year)
-  const [artist, setArtist] = useState(selectedAlbum.artist)
-  const [photo, setPhoto] = useState(selectedAlbum.photo)
+  const { show, handleClose, album, rowId } = props
+ 
+  const [albumName, setName] = useState(album.albumName)
+  const [year, setYear] = useState(album.year)
+  const [artist, setArtist] = useState(album.artist)
+  const [photo, setPhoto] = useState(album.photo)
   const dispatch = useDispatch()
 
   const editAlbum = () => {

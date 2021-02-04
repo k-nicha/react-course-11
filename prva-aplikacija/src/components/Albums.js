@@ -4,13 +4,21 @@ import { Table, Button } from 'react-bootstrap'
 import AddNewAlbum from './AddNewAlbum.js'
 import { removeAlbum } from '../redux/albums/albums'
 import EditAlbum from './EditAlbum.js'
+import SearchBar from './SearchBar.js'
 
 const Albums = () => {
   const [isModalShown, showModal] = useState(false)
   const [editModalShown, showEditModal] = useState(false)
   const [rowId, rowClicked] = useState(null)
 
-  const { albums } = useSelector(state => state.albumsReducer)
+  const {
+    albums,
+    filteredAlbums,
+    searchBarText
+  } = useSelector(state => state.albumsReducer)
+
+  const renderAlbums = searchBarText !== '' ? filteredAlbums : albums
+
   const dispatch = useDispatch()
 
   const toggleModal = () => {
@@ -27,6 +35,9 @@ const Albums = () => {
   }
 
   return (<div style={{ padding: '5% 20%' }}>
+
+    <SearchBar />
+
     <Button onClick={toggleModal}>
       Add new album
     </Button>
@@ -38,8 +49,8 @@ const Albums = () => {
     {editModalShown &&
       <EditAlbum
         rowId={rowId}
-        // data={albums[rowId]}
-        show={toggleEditModal}
+        album={albums[rowId]}
+        show={editModalShown}
         handleClose={toggleEditModal}
       />
     }
@@ -55,10 +66,8 @@ const Albums = () => {
       </thead>
       <tbody>
         {/* ovde se prikazuvaat albumite, sekoj vo poseban redica */}
-        {albums.map((album, index) => {
-          return <tr key={index}
-          //onclick????
-          >
+        {renderAlbums.map((album, index) => {
+          return <tr key={index}>
             <td>{album.albumName}</td>
             <td>{album.year}</td>
             <td>{album.artist}</td>

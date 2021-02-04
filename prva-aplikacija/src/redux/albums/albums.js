@@ -1,11 +1,33 @@
 const initialState = {
-  albums: [],
+  albums: [
+    {
+      albumName: 'Master of puppets',
+      artist: 'Metallcia',
+      year: '1981',
+      photo: null
+    },
+    {
+      albumName: 'Frozen',
+      artist: 'Madonna',
+      year: '2000',
+      photo: null
+    },
+    {
+      albumName: 'Baby ',
+      artist: 'Justin bieber',
+      year: '2010',
+      photo: null
+    }
+  ],
+
+  filteredAlbums: [],
+  searchBarText: ''
 }
 
-const insertNewAlbum = (data) => {
+const insertNewAlbum = (newAlbumObject) => {
   return {
     type: 'INSERT_NEW_ALBUM',
-    payload: data
+    payload: newAlbumObject
   }
 }
 
@@ -16,10 +38,24 @@ const removeAlbum = (index) => {
   }
 }
 
-const updateAlbum = (data) => {
+const updateAlbum = (updatedAlbumObject) => {
   return {
     type: 'UPDATE_ALBUM',
-    payload: data
+    payload: updatedAlbumObject
+  }
+}
+
+const searchAlbum = (searchBarText) => {
+  return {
+    type: 'SEARCH_ALBUM',
+    payload: searchBarText
+  }
+}
+
+const resetSearch = () => {
+  return {
+    type: 'RESET_SEARCH',
+    payload: null
   }
 }
 
@@ -27,6 +63,7 @@ const albumsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'INSERT_NEW_ALBUM': {
       return {
+        ...state,
         // na site albumi sto veke se vneseni, dodagi go i noviot album
         albums: [...state.albums, action.payload]
       }
@@ -39,18 +76,62 @@ const albumsReducer = (state = initialState, action) => {
       )
 
       return {
+        ...state,
         albums: newAlbumsArray
       }
     }
 
     case 'UPDATE_ALBUM': {
-      const { rowId } = action.payload
-      // albumot sto treba da se updejtira e na pozicija [rowId]
-      // treba da se izbrise stariot podatok i na isto mesto
-      // da se insertira noviot, sto se naogja vo action.payload
+      const {
+        rowId,
+        albumName,
+        year,
+        photo,
+        artist
+      } = action.payload
 
-      // ili vtoro reshenie, ednostavno da se zamenat stariot so 
-      // noviot element
+      const updatedAlbum = {
+        albumName,
+        year,
+        photo,
+        artist
+      }
+
+      const newArray = state.albums.map((album, index) => {
+        if (index === rowId) return updatedAlbum
+        else return album
+      })
+
+      return {
+        ...state,
+        albums: newArray
+      }
+    }
+
+    case 'SEARCH_ALBUM': {
+      const searchBarText = action.payload
+
+      const newAlbumsArray = state.albums.filter(album => {
+        // indexOf vrakja -1 ako ne go najde maliot vo golemiot string
+        // ako go najde ja vrakja pozicijata na koja sto go nasol maliot string
+        if (album.albumName.toLowerCase()
+        .indexOf(searchBarText.toLowerCase()) > -1) return true
+        return false
+      })
+
+      return {
+        ...state,
+        searchBarText,
+        filteredAlbums: newAlbumsArray,
+      }
+    }
+
+    case 'RESET_SEARCH': {
+      return {
+        ...state,
+        filteredAlbums: [],
+        searchBarText: ''
+      }
     }
 
     default: {
@@ -63,5 +144,7 @@ export {
   insertNewAlbum,
   removeAlbum,
   updateAlbum,
-  albumsReducer
+  albumsReducer,
+  searchAlbum,
+  resetSearch
 }
