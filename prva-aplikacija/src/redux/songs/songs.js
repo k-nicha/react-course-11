@@ -21,7 +21,7 @@ const fetchSongs = () => {
       })
       .catch(error => {
         // error
-        dispatch(fetchSongsError(error))
+        dispatch(fetchSongsError(error.message))
       })
   }
 }

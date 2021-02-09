@@ -6,11 +6,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './redux/store';
+import { LanguageProvider } from './context'
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <LanguageProvider value={'EN'}>
+        <App />
+      </LanguageProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
