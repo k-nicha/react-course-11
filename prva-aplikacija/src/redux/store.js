@@ -19,6 +19,6 @@ const allReducers = combineReducers({
   songsReducer
 })
 
-const store = createStore(allReducers, applyMiddleware(logger, thunk))
+const store = createStore(allReducers, applyMiddleware(thunk, logger))
 
 export default store

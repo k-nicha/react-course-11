@@ -9,7 +9,7 @@ const fetchSongs = () => {
   return function (dispatch) {
     dispatch(fetchSongsPending())
 
-    fetch('https://jsonplaceholder.typicode.com/ers')
+    fetch('https://jsonplaceholder.typicode.com/users')
       .then(res => res.json())
       .then(response => {
         // success
