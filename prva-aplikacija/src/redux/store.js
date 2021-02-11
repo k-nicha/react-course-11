@@ -11,12 +11,14 @@ import { counterReducer } from './counter/counter'
 import { loginReducer } from './login/login'
 import { albumsReducer } from './albums/albums'
 import { songsReducer } from './songs/songs'
+import { imageLogoReducer } from './imageLogo/imageLogo'
 
 const allReducers = combineReducers({
   counterReducer, // { counter: 0 }
   loginReducer, // { username: '', password: '' }
   albumsReducer,
-  songsReducer
+  songsReducer,
+  imageLogoReducer,
 })
 
 const store = createStore(allReducers, applyMiddleware(thunk, logger))

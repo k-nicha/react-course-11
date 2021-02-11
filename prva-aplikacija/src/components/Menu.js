@@ -1,29 +1,27 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Nav } from 'react-bootstrap'
 
 const Menu = () => {
-  return <nav>
-    <ul>
-      <li>
-        <Link to='/'> Home </Link>
-      </li>
-      <li>
-        <Link to='/login'> Login </Link>
-      </li>
-      <li>
-        <Link to='/songs'> Songs </Link>
-      </li>
-      <li>
-        <Link to='/albums'> Albums </Link>
-      </li>
-      <li>
-        <Link to='/artists'> Artists </Link>
-      </li>
-      <li>
-        <Link to='/contact'> About us </Link>
-      </li>
-    </ul>
-  </nav>
+  return <Nav activeKey="/home">
+      <Nav.Item>
+        <Nav.Link href='/'> Home </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href='/login'> Login </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href='/songs'> Songs </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href='/albums'> Albums </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href='/artists'> Artists </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href='/contact'> About us </Nav.Link>
+      </Nav.Item>
+    </Nav>
 }
 
 export default Menu

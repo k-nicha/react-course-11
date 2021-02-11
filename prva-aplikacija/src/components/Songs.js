@@ -1,17 +1,20 @@
-import React, { useEffect, useContext } from 'react'
+import React, { 
+  useEffect, 
+  // useContext 
+} from 'react'
 import { Spinner } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchSongs } from '../redux/songs/songs'
-import { Language } from '../context'
+// import { Language } from '../context'
 
 const Songs = () => {
   const dispatch = useDispatch()
   const { data, error, pending } =
     useSelector(state => state.songsReducer)
 
-  const language = useContext(Language)
+  // const language = useContext(Language)
 
-  console.log(language)
+  // console.log(language)
 
   useEffect(() => {
     dispatch(fetchSongs())
