@@ -1,5 +1,6 @@
 const initialState = {
   imageUrl: '',
+  imageUrlSmall: '',
   pending: false,
   error: null
 }
@@ -15,12 +16,35 @@ const fetchImage = () => {
         if (!buffer) {
           dispatch(fetchImageError(' Server error '))
         } else {
-          const base64String = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-          dispatch(fetchImageSuccess(base64String))
+          const blob = new Blob([buffer])
+          const objectUrl = URL.createObjectURL(blob)
+          dispatch(fetchImageSuccess(objectUrl))
         }
       })
       .catch(error => {
         dispatch(fetchImageError(error.message))
+      })
+  }
+}
+
+const fetchImageSmall = () => {
+  return (dispatch) => {
+
+    dispatch(fetchImageSmallPending())
+
+    fetch('https://picsum.photos/id/1082/100/60')
+      .then(res => res.arrayBuffer())
+      .then(buffer => {
+        if (!buffer) {
+          dispatch(fetchImageSmallError(' Server error '))
+        } else {
+          const blob = new Blob([buffer])
+          const objectUrl = URL.createObjectURL(blob)
+          dispatch(fetchImageSmallSuccess(objectUrl))
+        }
+      })
+      .catch(error => {
+        dispatch(fetchImageSmallError(error.message))
       })
   }
 }
@@ -43,6 +67,27 @@ const fetchImageSuccess = (response) => {
 const fetchImageError = (error) => {
   return {
     type: 'FETCH_IMAGE_FAILED',
+    payload: { error }
+  }
+}
+
+const fetchImageSmallPending = () => {
+  return {
+    type: 'FETCH_IMAGE_SMALL_PENDING',
+    payload: null
+  }
+}
+
+const fetchImageSmallSuccess = (response) => {
+  return {
+    type: 'FETCH_IMAGE_SMALL_SUCCESS',
+    payload: { response }
+  }
+}
+
+const fetchImageSmallError = (error) => {
+  return {
+    type: 'FETCH_IMAGE_SMALL_FAILED',
     payload: { error }
   }
 }
@@ -76,6 +121,31 @@ const imageLogoReducer = (state = initialState, action) => {
       }
     }
 
+    case 'FETCH_IMAGE_SMALL_PENDING': {
+      return {
+        ...state,
+        pending: true
+      }
+    }
+
+    case 'FETCH_IMAGE_SMALL_SUCCESS': {
+      return {
+        ...state,
+        pending: false,
+        imageUrlSmall: action.payload.response,
+        error: null
+      }
+    }
+
+    case 'FETCH_IMAGE_SMALL_FAILED': {
+      return {
+        ...state,
+        pending: false,
+        imageUrlSmall: '',
+        error: action.payload.error
+      }
+    }
+
 
     default: {
       return state
@@ -85,5 +155,6 @@ const imageLogoReducer = (state = initialState, action) => {
 
 export {
   fetchImage,
+  fetchImageSmall,
   imageLogoReducer
 }

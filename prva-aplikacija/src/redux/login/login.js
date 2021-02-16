@@ -11,10 +11,22 @@ const loginReducer = (
       const { username, password } = action.payload
       // const novaNiza = [...state.niza, 'asd']
       // const newObject = {...state.object, property: 'asd' }
+      localStorage.setItem('username', username)
+      localStorage.setItem('password', password)
       return {
         ...state,
         username,
         password,
+        // niza: novaNiza
+      }
+    }
+
+    case 'LOGOUT': {
+      localStorage.clear()
+      return {
+        ...state,
+        username: '',
+        password: '',
         // niza: novaNiza
       }
     }
@@ -31,7 +43,15 @@ const saveLoginInfo = (username, password) => {
   }
 }
 
+const logout = () => {
+  return {
+    type: 'LOGOUT',
+    payload: null
+  }
+}
+
 export {
   saveLoginInfo,
+  logout,
   loginReducer
 }

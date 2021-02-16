@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import './App.css'
 import {
   BrowserRouter,
@@ -12,18 +13,28 @@ import Artists from './components/Artists.js'
 import AboutUs from './components/AboutUs.js'
 import Menu from './components/Menu.js'
 import Login from './components/Login.js'
+import Logout from './components/Logout.js'
 
-class App extends React.Component {
+function App() {
+  const { username, password } = useSelector(state => state.loginReducer)
+  const userAuth = username || localStorage.getItem('username')
+  const passAuth = password || localStorage.getItem('password')
 
-  render = () => {
-    return (
-      <BrowserRouter>
+
+  return (
+    <BrowserRouter>
+      {(userAuth && passAuth) ? <>
         <Menu />
+
         <Switch>
           <Route path='/login'>
             <Login />
           </Route>
-          
+
+          <Route path='/logout'>
+            <Logout />
+          </Route>
+
           <Route path='/songs'>
             <Songs />
           </Route>
@@ -50,9 +61,12 @@ class App extends React.Component {
           </Route>
 
         </Switch>
-      </BrowserRouter>
-    )
+      </>
+      :
+      <Login />
   }
+    </BrowserRouter>
+  )
 }
 
 const NotFound = () => {

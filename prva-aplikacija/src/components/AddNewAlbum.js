@@ -11,6 +11,24 @@ const AddNewAlbum = (props) => {
   const [photo, setPhoto] = useState('')
   const dispatch = useDispatch()
 
+  const convertBinaryImage = (e) => {
+    const file = e.target.files[0]
+
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+
+    let bin = null
+
+    reader.onload = function() {
+      bin = reader.result
+      setPhoto(bin)
+    }
+  
+    reader.onerror = function() {
+      bin = null
+    }
+  }
+
   const saveNewAlbum = () => {
     const data = { albumName, year, artist, photo }
     dispatch(insertNewAlbum(data))
@@ -48,8 +66,8 @@ const AddNewAlbum = (props) => {
           name='photo'
           type='file'
           placeholder='Photo'
-          value={photo}
-          onChange={(e) => setPhoto(e.target.value)}
+          // value={photo}
+          onChange={(e) => convertBinaryImage(e)}
         />
       </Modal.Body>
       <Modal.Footer>

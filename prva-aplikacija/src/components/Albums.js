@@ -71,7 +71,7 @@ const Albums = () => {
             <td>{album.albumName}</td>
             <td>{album.year}</td>
             <td>{album.artist}</td>
-            <td>{album.photo}</td>
+            <td> <img src={album.photo} width='200'/> </td>
             <td>
               <Button variant='secondary'
                 onClick={() => toggleEditModal(index)}>
